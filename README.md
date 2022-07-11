@@ -6,15 +6,17 @@
  
     ## Conecte-se Comigo:
      <a href="https://www.linkedin.com/in/paulo-cergio-300926152/" target="=blank">
-       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="Paulo Cergio" height="30" width="40"
+     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="Paulo Cergio" height="30" width="40"
         style="max-width: 100%;" >
     </a>
       
-      
-      ## Minhas Habilidades:
-       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original-wordmark.svg" alt="HTML">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" alt="css">
-          
+   
+   
+   
+  Minhas Habilidades
+  
+     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="html" width="40" height="40" style="max-width:100%;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="html" width="40" height="40" style="max-width:100%;">
+
           
    [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Paulocergio&layout=compact)](https://github.com/Paulocergio/github-readme-stats)
       
@@ -25,12 +27,7 @@
 
 Here are some ideas to get you started:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+- 🔭 Atualmente estou trabalhando em uma página onde estou colocando em prática todos os meus conhecimentos em HTML CSS
+- 🌱 atualmente estou aprendendo , Java Script .
+
 -->
