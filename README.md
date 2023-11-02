@@ -1,33 +1,27 @@
-### Olá 👋
-- Meu nome e Paulo Cergio :brazil:
-- Sou estudante de Analise e desenvolvimento de Sistemas :computer:
+### Olá! Eu sou o Paulo Cergio 🖖
+
+[![Email](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/paulo-cergio-300926152/)
+
+![Paulo Cergio GitHub stats](https://github-readme-stats.vercel.app/api?username=Paulocergio&show_icons=true&theme=dracula)
+
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Paulocergio&layout=compact)
 
 
- 
-    ## Conecte-se Comigo:
-     <a href="https://www.linkedin.com/in/paulo-cergio-300926152/" target="=blank">
-     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="Paulo Cergio" height="30" width="40"
-        style="max-width: 100%;" >
-    </a>
-      
-   
-   
-   
-  Minhas Habilidades
-  
-     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="html" width="40" height="40" style="max-width:100%;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="html" width="40" height="40" style="max-width:100%;">
+## Tecnologias que uso no meu dia
 
-          
-   [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Paulocergio&layout=compact)](https://github.com/Paulocergio/github-readme-stats)
-      
-          
-          
-      
-**Paulocergio/Paulocergio** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+<div style="display:inline-block;"><br/>
+  <img align="center" alt="JavaScript" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/>
 
-Here are some ideas to get you started:
+  <img align="center" alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
 
-- 🔭 Atualmente estou trabalhando em uma página onde estou colocando em prática todos os meus conhecimentos em HTML CSS
-- 🌱 atualmente estou aprendendo , Java Script .
+  <img align="center" alt="Material UI" src="https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white"/>
 
--->
+  <img align="center" alt="C#" src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white"/>
+
+  <img align="center" alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/>
+
+  <img align="center" alt="CSS" src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/>
+
+
+</div>
+
