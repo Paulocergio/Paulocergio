@@ -1,33 +1,42 @@
 <h1 align="center">Olá, eu sou o Paulo Cergio 👋</h1>
 
 <p align="center">
-  Desenvolvedor de Software | .NET & Full Stack | Soluções SaaS sob medida 🚀
+  Desenvolvedor de Software | .NET & Full Stack | Foco em soluções escaláveis 🚀
 </p>
 
 ---
 
 ## 💼 Sobre mim
 
-Sou desenvolvedor com 4 anos de experiência no mercado, atuando no desenvolvimento de APIs robustas e soluções full stack com foco em performance, escalabilidade e boas práticas de arquitetura. 
+Atuo como desenvolvedor de software com experiência sólida no desenvolvimento de sistemas corporativos, APIs RESTful e aplicações web. Trabalho profissionalmente com **C#**, **.NET Core**, **SQL Server**, **Docker** e **React.js**, aplicando boas práticas como **Clean Code**, **SOLID** e versionamento com Git.
 
-Atualmente estou desenvolvendo um sistema **SaaS completo para oficinas mecânicas**, chamado **ConnectaSys**, que envolve desde o back-end em .NET até o front-end com React.
+Atualmente estou desenvolvendo o **ConnectaSys**, uma plataforma **SaaS para oficinas mecânicas**, com foco em arquitetura escalável e moderna.
 
 ---
 
-## ⚙️ Stack Principal
+## ⚙️ Tecnologias que utilizo profissionalmente
 
 - 💻 **Back-end**: C#, ASP.NET Core, REST APIs, Entity Framework Core
-- 🛢️ **Banco de Dados**: SQL Server (consultas otimizadas, procedures e views)
-- 🎨 **Front-end**: React.js (Tailwind, MUI), consumo de APIs REST
-- 🔧 **Versionamento**: Git + GitHub (Git Flow)
+- 🛢️ **Banco de dados**: SQL Server (procedures, views, consultas otimizadas)
+- 🎨 **Front-end**: React.js (MUI, TailwindCSS)
+- 🐳 **Infraestrutura**: Docker, GitHub Actions
+- 🔁 **Versionamento**: Git + GitHub (Git Flow)
 
 ---
 
-## 📚 Em constante aprendizado
+## 🚧 Projeto em desenvolvimento
 
-- 🚧 Node.js com TypeScript
-- 🚧 PostgreSQL
-- 🚧 Clean Architecture, DDD, TDD
+### 🔷 ConnectaSys – Plataforma SaaS
+> Solução completa para controle de clientes, produtos, estoque e ordens de serviço em oficinas.
+
+**Stack:**
+- 🟦 Node.js com TypeScript
+- 🐘 PostgreSQL
+- 🧠 Clean Architecture, DDD
+- ✅ Testes automatizados (TDD)
+- 🔐 JWT Authentication
+
+📂 [Repositórios públicos disponíveis aqui](https://github.com/Paulocergio)
 
 ---
 
@@ -40,22 +49,12 @@ Atualmente estou desenvolvendo um sistema **SaaS completo para oficinas mecânic
 
 ---
 
-## 📌 Projetos em destaque
-
-| Projeto | Tecnologias | Descrição |
-|--------|-------------|-----------|
-| [ConnectaSys_Front](https://github.com/Paulocergio/ConnectaSys_Front) | React.js, Tailwind | Front-end SaaS para gestão de estoque e clientes |
-| [connectaSys_node](https://github.com/Paulocergio/connectaSys_node) | Node.js, TypeScript | API de produtos e estoque com PostgreSQL |
-| [connectasysAPI](https://github.com/Paulocergio/connectasysAPI) | C#, ASP.NET Core | API REST com regras de negócio para oficina |
-
----
-
 ## 📫 Contato
 
 - [![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/paulo-cergio-300926152/)
-- 📧 Email: paulo.cergio@gmail.com  
+- 📧 Email: juniorcergio@gmail.com  
 - 📱 WhatsApp: +55 31 99062-4294
 
 ---
 
-<sub>“Transformar ideias em soluções escaláveis é o que me move.”</sub>
+<sub>“Transformo código em soluções de negócio que geram valor.”</sub>
