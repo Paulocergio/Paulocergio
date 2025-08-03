@@ -33,10 +33,8 @@ Atualmente estou desenvolvendo o **ConnectaSys**, uma plataforma **SaaS para ofi
 - 🟦 Node.js com TypeScript
 - 🐘 PostgreSQL
 - 🧠 Clean Architecture, DDD
-- ✅ Testes automatizados (TDD)
 - 🔐 JWT Authentication
 
-📂 [Repositórios públicos disponíveis aqui](https://github.com/Paulocergio)
 
 ---
 
