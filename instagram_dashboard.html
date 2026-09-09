@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Instagram Analytics — Teatro em Movimento</title>
+<style>
+:root{
+  --bg:#0b0d12; --panel:#161a22; --panel-2:#1c212b; --line:#272d3a; --line-2:#333b4b;
+  --ink:#f2f4f8; --ink-2:#a8b0c0; --ink-3:#6f7789;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --good:#199e70; --warn:#c98500; --bad:#e66767;
+  --grid:rgba(255,255,255,.06);
+  --r:14px; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font:15px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased;padding-bottom:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+a{color:var(--s1)}
+h2{font-size:19px;margin:0;letter-spacing:-.01em}
+.mut{color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+
+/* ---------- header ---------- */
+header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#12161e,#0b0d12);
+ position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+.hd{display:flex;align-items:center;gap:16px;padding:18px 0;flex-wrap:wrap}
+.logo{height:48px;width:auto;flex:none;display:block}
+.hid{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 auto;
+ border-left:1px solid var(--line-2);padding-left:16px}
+.hid .pn{font-size:19px;font-weight:640;letter-spacing:-.015em;line-height:1.25;white-space:nowrap}
+.hid .pu{font-size:13px;color:var(--ink-3)}
+.hmeta{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:11.5px;color:var(--ink-2);background:var(--panel);border:1px solid var(--line);
+ border-radius:999px;padding:5px 11px;white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+
+/* ---------- sections ---------- */
+section{padding:34px 0 6px}
+.shead{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.shead p{margin:0;font-size:13px;color:var(--ink-3);flex:1;min-width:220px}
+.eyebrow{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--s1);
+ font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;
+ box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--s1);opacity:.85}
+.kpi.k2::before{background:var(--s2)} .kpi.k3::before{background:var(--s3)}
+.kpi.kw::before{background:var(--warn)}
+.kl{font-size:12px;color:var(--ink-2);font-weight:520;letter-spacing:.01em}
+.kv{font-size:31px;font-weight:680;letter-spacing:-.025em;line-height:1.15;margin:7px 0 3px;
+ font-variant-numeric:tabular-nums}
+.kv small{font-size:14px;font-weight:520;color:var(--ink-3);letter-spacing:0;margin-left:2px}
+.ksub{font-size:12px;color:var(--ink-3);line-height:1.45}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:640;
+ padding:2px 7px;border-radius:6px;font-variant-numeric:tabular-nums}
+.tag.pos{color:#5fd3a3;background:rgba(25,158,112,.15)}
+.tag.neg{color:#f09a9a;background:rgba(230,103,103,.15)}
+.tag.neu{color:var(--ink-2);background:rgba(255,255,255,.06)}
+
+/* ---------- alert ---------- */
+.alert{margin-top:14px;display:flex;gap:14px;align-items:flex-start;background:var(--panel);
+ border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:var(--r);padding:16px 18px}
+.alert .ai{font-size:17px;line-height:1.3;flex:none}
+.alert h3{margin:0 0 5px;font-size:14.5px;font-weight:640}
+.alert p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.6}
+.alert b{color:var(--ink)}
+
+/* ---------- cards / charts ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+ padding:20px;box-shadow:var(--shadow)}
+.card h2{font-size:15.5px;font-weight:640}
+.card .sub{font-size:12px;color:var(--ink-3);margin:5px 0 0;line-height:1.5}
+.chead{margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cbox{position:relative;height:300px}
+.cbox.tall{height:340px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 12px;padding:0;list-style:none;
+ font-size:12.5px;color:var(--ink-2)}
+.legend li{display:flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+
+/* ---------- content-type cards ---------- */
+.tcards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;
+ box-shadow:var(--shadow);position:relative}
+.tcard.gold{border-color:rgba(201,133,0,.5);background:linear-gradient(160deg,rgba(201,133,0,.09),var(--panel) 55%)}
+.trank{position:absolute;top:14px;right:16px;font-size:12px;font-weight:700;color:var(--ink-3);
+ border:1px solid var(--line-2);border-radius:6px;padding:2px 7px}
+.tcard.gold .trank{color:#e8ab2e;border-color:rgba(201,133,0,.55)}
+.tname{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:620;color:var(--ink-2)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.d-foto{background:var(--s1)} .d-reels{background:var(--s2)} .d-carr{background:var(--s3)}
+.tbig{font-size:30px;font-weight:690;letter-spacing:-.025em;margin:9px 0 2px;font-variant-numeric:tabular-nums}
+.tunit{font-size:12px;font-weight:500;color:var(--ink-3);margin-left:7px;letter-spacing:0}
+.tdelta{font-size:12px;font-weight:600;margin-bottom:14px}
+.tdelta.pos{color:#5fd3a3} .tdelta.neg{color:#f09a9a}
+.tlist{margin:0;padding-top:13px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:7px}
+.tlist>div{display:flex;justify-content:space-between;gap:10px;font-size:12.5px}
+.tlist dt{color:var(--ink-3);margin:0} .tlist dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---------- horizontal bar lists ---------- */
+.hrow{display:grid;grid-template-columns:78px 1fr 54px 38px;align-items:center;gap:11px;
+ padding:7px 0;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,.035)}
+.hrow:last-child{border-bottom:0}
+.hlab{color:var(--ink-2);font-variant-numeric:tabular-nums}
+.hbar{background:rgba(255,255,255,.05);border-radius:4px;height:9px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--s1);border-radius:4px}
+.hrow.best .hbar i{background:var(--s3)}
+.hrow.best .hlab{color:var(--ink);font-weight:640}
+.hval{text-align:right;font-weight:640;font-variant-numeric:tabular-nums}
+.hn{text-align:right;color:var(--ink-3);font-size:11px;font-variant-numeric:tabular-nums}
+
+/* ---------- tables ---------- */
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2);font:inherit;
+ font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:8px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--s1);border-color:var(--s1);color:#fff}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:800px}
+th{text-align:left;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);
+ font-weight:700;padding:12px 11px;background:var(--panel-2);border-bottom:1px solid var(--line);
+ white-space:nowrap;position:sticky;top:0}
+th.num{text-align:right}
+td{padding:10px 11px;border-bottom:1px solid rgba(255,255,255,.045);vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(57,135,229,.06)}
+.rk{font-weight:700;font-variant-numeric:tabular-nums;width:34px;text-align:center}
+.rk.up{color:#5fd3a3} .rk.dn{color:#f09a9a}
+.dtc{color:var(--ink-2);font-variant-numeric:tabular-nums}
+.dtc .wd{display:block;font-size:10.5px;color:var(--ink-3)}
+.st{font-weight:700;color:var(--ink)}
+.badge{font-size:11px;font-weight:640;padding:3px 8px;border-radius:6px;white-space:nowrap;
+ display:inline-flex;align-items:center;gap:5px}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-foto{color:#7fb3f0;background:rgba(57,135,229,.14)}
+.b-reels{color:#e89268;background:rgba(217,89,38,.16)}
+.b-carr{color:#4fc79a;background:rgba(25,158,112,.15)}
+.lk{text-decoration:none;font-size:14px;opacity:.55}
+.lk:hover{opacity:1}
+
+/* ---------- growth plan ---------- */
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;
+ box-shadow:var(--shadow)}
+.pcard.full{grid-column:1/-1}
+.pt{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:660;margin:0 0 15px}
+.pt .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;flex:none}
+.ic.g{background:rgba(25,158,112,.16);color:#5fd3a3}
+.ic.w{background:rgba(201,133,0,.16);color:#e8ab2e}
+.ic.b{background:rgba(57,135,229,.16);color:#7fb3f0}
+.plist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:15px}
+.plist li{display:flex;gap:12px}
+.pnum{flex:none;width:21px;height:21px;border-radius:6px;font-size:11px;font-weight:700;
+ display:grid;place-items:center;margin-top:1px}
+.pcard.good .pnum{background:rgba(25,158,112,.16);color:#5fd3a3}
+.pcard.warnc .pnum{background:rgba(201,133,0,.16);color:#e8ab2e}
+.plist h4{margin:0 0 4px;font-size:13.5px;font-weight:640;line-height:1.4}
+.plist p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.62}
+.plist b{color:var(--ink);font-weight:640}
+.recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:4px}
+.rec{background:var(--panel-2);border:1px solid var(--line);border-radius:11px;padding:15px}
+.rec .rl{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.rec .rv{font-size:17px;font-weight:660;margin:7px 0 5px;letter-spacing:-.015em}
+.rec .rv.hl{color:#5fd3a3}
+.rec p{margin:0;font-size:12px;color:var(--ink-3);line-height:1.55}
+.strat{background:linear-gradient(160deg,rgba(57,135,229,.11),var(--panel) 60%);
+ border-color:rgba(57,135,229,.42)}
+.steps{margin:14px 0 0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:11px}
+.steps li{counter-increment:s;display:flex;gap:11px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.steps li>span{min-width:0}
+.steps li::before{content:counter(s);flex:none;width:20px;height:20px;border-radius:50%;
+ background:rgba(57,135,229,.18);color:#7fb3f0;font-size:10.5px;font-weight:700;
+ display:grid;place-items:center;margin-top:1px}
+.steps b{color:var(--ink)}
+.crow{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;padding:6px 0;
+ border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink-2)}
+.crow:last-child{border-bottom:0}
+.crow b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* ---------- notes / footer ---------- */
+.notes{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+.notes h3{margin:0 0 11px;font-size:13.5px;font-weight:640}
+.notes ul{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:7px}
+.notes li{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.notes code{background:var(--panel-2);border:1px solid var(--line);border-radius:4px;
+ padding:1px 5px;font-size:11.5px;color:var(--ink-2)}
+footer{margin-top:38px;border-top:1px solid var(--line);background:#090b0f}
+.ft{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;flex-wrap:wrap}
+.ft .bd{font-size:13px;font-weight:620}
+.ft .bd span{color:var(--s1)}
+.ft .fm{font-size:11.5px;color:var(--ink-3)}
+
+/* grid/flex children must be allowed to shrink below their content */
+.kpis>*,.grid2>*,.grid3>*,.tcards>*,.plan>*,.recs>*,.plist li>div,.hrow>*{min-width:0}
+.plist p,.plist h4,.rec p,.steps li,.notes li,.card .sub,.alert p{overflow-wrap:break-word}
+/* fallback shown when the Chart.js CDN is unreachable */
+.cbox.nochart{display:grid;place-items:center;text-align:center;padding:20px;
+ border:1px dashed var(--line-2);border-radius:11px;background:var(--panel-2)}
+.cbox.nochart canvas{display:none}
+.cbox .nc{font-size:12.5px;color:var(--ink-2);line-height:1.6;max-width:340px}
+.cbox .nc b{display:block;color:var(--ink);margin-bottom:4px}
+
+@media (max-width:1080px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){
+  .grid2,.grid3,.tcards,.plan{grid-template-columns:1fr}
+  .kv{font-size:27px}
+  .hmeta{width:100%;margin-left:0}
+}
+@media (max-width:620px){.kpis{grid-template-columns:1fr}}
+@media (max-width:520px){
+  .wrap{padding:0 14px}
+  .hid{flex:1 1 auto;min-width:0;padding-left:12px}
+  .hid .pn{white-space:normal;font-size:17px}
+  .hd{gap:12px}
+  .hid{padding-left:12px}
+  .hrow{grid-template-columns:66px 1fr 46px 32px;gap:8px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap hd">
+  <svg class="logo" viewBox="0 0 196 48" role="img" aria-label="Encha AI">
+   <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
+     <stop offset="0" stop-color="#3987e5"/><stop offset="1" stop-color="#199e70"/></linearGradient></defs>
+   <rect x="1" y="5" width="38" height="38" rx="11" fill="url(#eg)"/>
+   <path d="M12 17.5h16M12 24h11.5M12 30.5h16" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".95"/>
+   <text x="49" y="30.5" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="20"
+         font-weight="700" letter-spacing="-.4" fill="#f2f4f8">Encha<tspan fill="#3987e5"> AI</tspan></text>
+   <text x="49.5" y="41" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="8.2"
+         letter-spacing="1.5" fill="#6f7789">INSTAGRAM ANALYTICS</text>
+  </svg>
+  <div class="hid">
+   <div class="pn">Teatro em Movimento</div>
+   <div class="pu">@teatroemmovimento</div>
+  </div>
+  <div class="hmeta">
+   <span class="chip">Diário <b>10/08 – 08/09</b></span>
+   <span class="chip">Publicações <b>14/06 – 04/09</b></span>
+   <span class="chip">Fonte <b>Windsor.ai</b></span>
+  </div>
+ </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ KPIs ============ -->
+<section>
+ <div class="eyebrow">Visão geral</div>
+ <div class="kpis">
+  <div class="kpi">
+   <div class="kl">Seguidores</div>
+   <div class="kv">23.900</div>
+   <div class="ksub"><span class="tag pos">+646</span> nos últimos 30 dias · +2,78%</div>
+  </div>
+  <div class="kpi k2">
+   <div class="kl">Alcance (30 dias)</div>
+   <div class="kv">191.737</div>
+   <div class="ksub">6.391 contas/dia · soma dos alcances diários</div>
+  </div>
+  <div class="kpi k3">
+   <div class="kl">Visualizações (30 dias)</div>
+   <div class="kv">387.861</div>
+   <div class="ksub">Substitui <em>impressões</em>, descontinuada pela API</div>
+  </div>
+  <div class="kpi">
+   <div class="kl">Taxa de engajamento média</div>
+   <div class="kv">0,95<small>%</small></div>
+   <div class="ksub">Por publicação, sobre 23.900 seguidores<br>
+     <span class="tag neu">6,06% sobre o alcance</span></div>
+  </div>
+  <div class="kpi kw">
+   <div class="kl">Interações (30 dias)</div>
+   <div class="kv">13.664</div>
+   <div class="ksub">10.568 curtidas · 501 coment. · 263 salv. · 1.102 compart.</div>
+  </div>
+  <div class="kpi k2">
+   <div class="kl">Frequência de publicação</div>
+   <div class="kv">2,6<small>/semana</small></div>
+   <div class="ksub">11 publicações em 30 dias · 38 em 90 dias</div>
+  </div>
+ </div>
+
+ <div class="alert">
+  <span class="ai">⚠️</span>
+  <div>
+   <h3>Queda acentuada de alcance na segunda quinzena</h3>
+   <p>O alcance caiu de <b>172.533</b> (10–24/08) para <b>19.204</b> (25/08–08/09) — uma retração de
+    <b>88,9%</b>. Os novos seguidores caíram de <b>452</b> para <b>194</b> (-57,1%).
+    A queda coincide com um <b>hiato de 12 dias sem publicar</b> (20/08 a 01/09) — é o achado mais
+    relevante deste relatório e a base do Plano de Crescimento.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ============ Gráficos ============ -->
+<section>
+ <div class="eyebrow">Evolução</div>
+ <div class="grid2">
+  <div class="card">
+   <div class="chead">
+    <h2>Evolução de seguidores</h2>
+    <p class="sub">Série reconstruída a partir dos novos seguidores/dia, ancorada no total atual de
+     23.900. A API do Instagram não fornece histórico do total de seguidores.</p>
+   </div>
+   <div class="cbox"><canvas id="cFoll"></canvas></div>
+  </div>
+  <div class="card">
+   <div class="chead">
+    <h2>Alcance diário</h2>
+    <p class="sub">Contas únicas alcançadas por dia nos últimos 30 dias. Evidencia o colapso após 22/08.</p>
+   </div>
+   <div class="cbox"><canvas id="cReach"></canvas></div>
+  </div>
+ </div>
+
+ <div class="card" style="margin-top:16px">
+  <div class="chead">
+   <h2>Curtidas e comentários por publicação</h2>
+   <p class="sub">38 publicações dos últimos 90 dias, em ordem cronológica. Barras empilhadas —
+    passe o mouse para ver o tipo de conteúdo e o alcance de cada post.</p>
+  </div>
+  <ul class="legend">
+   <li><span class="sw" style="background:var(--s1)"></span>Curtidas</li>
+   <li><span class="sw" style="background:var(--s2)"></span>Comentários</li>
+  </ul>
+  <div class="cbox tall"><canvas id="cPosts"></canvas></div>
+ </div>
+</section>
+
+<!-- ============ Tipos de conteúdo ============ -->
+<section>
+ <div class="eyebrow">Formatos que performam melhor</div>
+ <div class="shead">
+  <h2>Ranking por tipo de conteúdo</h2>
+  <p>Engajamento médio por publicação (curtidas + comentários + salvamentos + compartilhamentos),
+   base de 90 dias. A média geral do perfil é de 226,9 interações por post.</p>
+ </div>
+ <div class="tcards"><div class="tcard gold">
+  <div class="trank">1º</div>
+  <div class="tname"><span class="dot d-foto"></span>Foto estática</div>
+  <div class="tbig">280,1<span class="tunit">eng./post</span></div>
+  <div class="tdelta pos">+23% vs. média geral</div>
+  <dl class="tlist">
+    <div><dt>Publicações</dt><dd>17 <span class="mut">(45%)</span></dd></div>
+    <div><dt>Alcance médio</dt><dd>4.380</dd></div>
+    <div><dt>Compart. médios</dt><dd>58,6</dd></div>
+    <div><dt>Salvam. médios</dt><dd>11,2</dd></div>
+    <div><dt>Taxa eng. / alcance</dt><dd>5,66%</dd></div>
+  </dl>
+</div><div class="tcard silver">
+  <div class="trank">2º</div>
+  <div class="tname"><span class="dot d-reels"></span>Reels</div>
+  <div class="tbig">199,5<span class="tunit">eng./post</span></div>
+  <div class="tdelta neg">-12% vs. média geral</div>
+  <dl class="tlist">
+    <div><dt>Publicações</dt><dd>17 <span class="mut">(45%)</span></dd></div>
+    <div><dt>Alcance médio</dt><dd>3.416</dd></div>
+    <div><dt>Compart. médios</dt><dd>33,2</dd></div>
+    <div><dt>Salvam. médios</dt><dd>5,6</dd></div>
+    <div><dt>Taxa eng. / alcance</dt><dd>5,71%</dd></div>
+  </dl>
+</div><div class="tcard bronze">
+  <div class="trank">3º</div>
+  <div class="tname"><span class="dot d-carr"></span>Carrossel</div>
+  <div class="tbig">117,0<span class="tunit">eng./post</span></div>
+  <div class="tdelta neg">-48% vs. média geral</div>
+  <dl class="tlist">
+    <div><dt>Publicações</dt><dd>4 <span class="mut">(11%)</span></dd></div>
+    <div><dt>Alcance médio</dt><dd>1.351</dd></div>
+    <div><dt>Compart. médios</dt><dd>6,5</dd></div>
+    <div><dt>Salvam. médios</dt><dd>4,0</dd></div>
+    <div><dt>Taxa eng. / alcance</dt><dd>9,25%</dd></div>
+  </dl>
+</div></div>
+
+ <div class="grid2" style="margin-top:16px">
+  <div class="card">
+   <div class="chead">
+    <h2>Engajamento médio por formato</h2>
+    <p class="sub">Valores rotulados diretamente nas barras.</p>
+   </div>
+   <div class="cbox"><canvas id="cType"></canvas></div>
+  </div>
+  <div class="card">
+   <div class="chead">
+    <h2>Alcance médio por formato</h2>
+    <p class="sub">Quantas contas únicas cada formato entrega, em média.</p>
+   </div>
+   <div class="cbox"><canvas id="cTypeReach"></canvas></div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ Horários ============ -->
+<section>
+ <div class="eyebrow">Melhores horários</div>
+ <div class="grid3">
+  <div class="card">
+   <div class="chead">
+    <h2>Por faixa de horário</h2>
+    <p class="sub">Engajamento médio por post (horário de Brasília). <code>n</code> = nº de publicações.</p>
+   </div>
+   <div class="hrow"><span class="hlab">09h–11h</span>
+<span class="hbar"><i style="width:43%"></i></span>
+<span class="hval">183,0</span><span class="hn">n=10</span></div><div class="hrow"><span class="hlab">12h–14h</span>
+<span class="hbar"><i style="width:24%"></i></span>
+<span class="hval">100,0</span><span class="hn">n=7</span></div><div class="hrow best"><span class="hlab">15h–17h</span>
+<span class="hbar"><i style="width:100%"></i></span>
+<span class="hval">422,2</span><span class="hn">n=4</span></div><div class="hrow"><span class="hlab">18h–20h</span>
+<span class="hbar"><i style="width:62%"></i></span>
+<span class="hval">261,9</span><span class="hn">n=16</span></div><div class="hrow"><span class="hlab">21h–23h</span>
+<span class="hbar"><i style="width:50%"></i></span>
+<span class="hval">211,0</span><span class="hn">n=1</span></div>
+  </div>
+  <div class="card">
+   <div class="chead">
+    <h2>Por dia da semana</h2>
+    <p class="sub">Engajamento médio por post nos últimos 90 dias.</p>
+   </div>
+   <div class="hrow"><span class="hlab">Segunda</span>
+<span class="hbar"><i style="width:79%"></i></span>
+<span class="hval">392,8</span><span class="hn">n=4</span></div><div class="hrow best"><span class="hlab">Terça</span>
+<span class="hbar"><i style="width:100%"></i></span>
+<span class="hval">497,8</span><span class="hn">n=5</span></div><div class="hrow"><span class="hlab">Quarta</span>
+<span class="hbar"><i style="width:37%"></i></span>
+<span class="hval">186,1</span><span class="hn">n=7</span></div><div class="hrow"><span class="hlab">Quinta</span>
+<span class="hbar"><i style="width:32%"></i></span>
+<span class="hval">157,0</span><span class="hn">n=6</span></div><div class="hrow"><span class="hlab">Sexta</span>
+<span class="hbar"><i style="width:34%"></i></span>
+<span class="hval">169,2</span><span class="hn">n=8</span></div><div class="hrow"><span class="hlab">Sábado</span>
+<span class="hbar"><i style="width:25%"></i></span>
+<span class="hval">122,3</span><span class="hn">n=3</span></div><div class="hrow"><span class="hlab">Domingo</span>
+<span class="hbar"><i style="width:24%"></i></span>
+<span class="hval">119,0</span><span class="hn">n=5</span></div>
+  </div>
+  <div class="card">
+   <div class="chead">
+    <h2>Onde está o público</h2>
+    <p class="sub">Top 6 cidades por número de seguidores.</p>
+   </div>
+   <div class="crow"><span>Belo Horizonte, MG</span><b>10.222</b></div><div class="crow"><span>São Paulo, SP</span><b>1.275</b></div><div class="crow"><span>Rio de Janeiro, RJ</span><b>926</b></div><div class="crow"><span>Contagem, MG</span><b>833</b></div><div class="crow"><span>Juiz de Fora, MG</span><b>536</b></div><div class="crow"><span>Itabira, MG</span><b>435</b></div>
+   <div style="margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-2)">
+    <b style="color:var(--ink)">60% mulheres</b> · núcleo etário <b style="color:var(--ink)">35–54 anos</b>
+    (13.079 seguidores, 56% da base)
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ Tabela ============ -->
+<section>
+ <div class="eyebrow">Publicações</div>
+ <div class="shead">
+  <h2>Maior e menor engajamento</h2>
+  <p>Base de 90 dias (38 publicações). Ordenadas pelo engajamento total.
+   <b>Tx.</b> = engajamento sobre o alcance do próprio post.</p>
+ </div>
+ <div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-t="top">🔥 10 maiores</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="bot">🧊 10 menores</button>
+ </div>
+ <div class="tw">
+  <table id="tTop">
+   <thead><tr><th>#</th><th>Data / hora</th><th>Formato</th><th class="num">Curtidas</th>
+    <th class="num">Coment.</th><th class="num">Salvam.</th><th class="num">Compart.</th>
+    <th class="num">Alcance</th><th class="num">Engaj.</th><th class="num">Tx.</th><th></th></tr></thead>
+   <tbody><tr>
+<td class="rk up">1</td>
+<td class="dtc">16/06 19:18<span class="wd">Terça</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">976</td>
+<td class="num">75</td>
+<td class="num">75</td>
+<td class="num">438</td>
+<td class="num">8.613</td>
+<td class="num st">1.576</td>
+<td class="num">18,30%</td>
+<td><a href="https://www.instagram.com/p/DZqcpWOzRRi/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">2</td>
+<td class="dtc">10/08 17:26<span class="wd">Segunda</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">701</td>
+<td class="num">41</td>
+<td class="num">19</td>
+<td class="num">197</td>
+<td class="num">12.348</td>
+<td class="num st">997</td>
+<td class="num">8,07%</td>
+<td><a href="https://www.instagram.com/reel/Db33KwETO-J/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">3</td>
+<td class="dtc">19/06 10:15<span class="wd">Sexta</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">494</td>
+<td class="num">42</td>
+<td class="num">22</td>
+<td class="num">102</td>
+<td class="num">6.894</td>
+<td class="num st">670</td>
+<td class="num">9,72%</td>
+<td><a href="https://www.instagram.com/p/DZxMviDuWrS/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">4</td>
+<td class="dtc">02/07 19:00<span class="wd">Quinta</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">341</td>
+<td class="num">53</td>
+<td class="num">16</td>
+<td class="num">75</td>
+<td class="num">6.815</td>
+<td class="num st">496</td>
+<td class="num">7,28%</td>
+<td><a href="https://www.instagram.com/p/DaTnPk7TsAk/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">5</td>
+<td class="dtc">04/08 19:39<span class="wd">Terça</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">416</td>
+<td class="num">17</td>
+<td class="num">15</td>
+<td class="num">34</td>
+<td class="num">7.023</td>
+<td class="num st">490</td>
+<td class="num">6,98%</td>
+<td><a href="https://www.instagram.com/p/DboqDzwzPWY/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">6</td>
+<td class="dtc">29/07 17:19<span class="wd">Quarta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">189</td>
+<td class="num">13</td>
+<td class="num">24</td>
+<td class="num">161</td>
+<td class="num">5.311</td>
+<td class="num st">400</td>
+<td class="num">7,53%</td>
+<td><a href="https://www.instagram.com/reel/DbY9KEUTXgB/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">7</td>
+<td class="dtc">02/09 19:39<span class="wd">Quarta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">312</td>
+<td class="num">39</td>
+<td class="num">16</td>
+<td class="num">14</td>
+<td class="num">5.311</td>
+<td class="num st">399</td>
+<td class="num">7,51%</td>
+<td><a href="https://www.instagram.com/reel/DczUwixTDX_/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">8</td>
+<td class="dtc">29/06 09:52<span class="wd">Segunda</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">296</td>
+<td class="num">24</td>
+<td class="num">9</td>
+<td class="num">46</td>
+<td class="num">4.505</td>
+<td class="num st">382</td>
+<td class="num">8,48%</td>
+<td><a href="https://www.instagram.com/p/DaK6JmUOW7J/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">9</td>
+<td class="dtc">02/07 12:02<span class="wd">Quinta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">165</td>
+<td class="num">27</td>
+<td class="num">5</td>
+<td class="num">18</td>
+<td class="num">4.505</td>
+<td class="num st">218</td>
+<td class="num">4,84%</td>
+<td><a href="https://www.instagram.com/reel/DaS3U0YOdOF/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk up">10</td>
+<td class="dtc">18/08 21:27<span class="wd">Terça</span></td>
+<td><span class="badge b-carr">Carrossel</span></td>
+<td class="num">197</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">7</td>
+<td class="num">1.314</td>
+<td class="num st">211</td>
+<td class="num">16,06%</td>
+<td><a href="https://www.instagram.com/p/DcM5mENjlyv/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr></tbody>
+  </table>
+  <table id="tBot" hidden>
+   <thead><tr><th>#</th><th>Data / hora</th><th>Formato</th><th class="num">Curtidas</th>
+    <th class="num">Coment.</th><th class="num">Salvam.</th><th class="num">Compart.</th>
+    <th class="num">Alcance</th><th class="num">Engaj.</th><th class="num">Tx.</th><th></th></tr></thead>
+   <tbody><tr>
+<td class="rk dn">1</td>
+<td class="dtc">06/08 13:11<span class="wd">Quinta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">24</td>
+<td class="num">6</td>
+<td class="num">0</td>
+<td class="num">4</td>
+<td class="num">781</td>
+<td class="num st">34</td>
+<td class="num">4,35%</td>
+<td><a href="https://www.instagram.com/reel/DbtG5JGuGfg/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">2</td>
+<td class="dtc">07/08 14:57<span class="wd">Sexta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">30</td>
+<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">4</td>
+<td class="num">1.169</td>
+<td class="num st">39</td>
+<td class="num">3,34%</td>
+<td><a href="https://www.instagram.com/reel/Dbv4G_1p2ZM/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">3</td>
+<td class="dtc">04/09 14:33<span class="wd">Sexta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">28</td>
+<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">5</td>
+<td class="num">831</td>
+<td class="num st">40</td>
+<td class="num">4,81%</td>
+<td><a href="https://www.instagram.com/reel/Dc37piTz3WM/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">4</td>
+<td class="dtc">20/08 18:47<span class="wd">Quinta</span></td>
+<td><span class="badge b-reels">Reels</span></td>
+<td class="num">40</td>
+<td class="num">0</td>
+<td class="num">2</td>
+<td class="num">6</td>
+<td class="num">1.240</td>
+<td class="num st">49</td>
+<td class="num">3,95%</td>
+<td><a href="https://www.instagram.com/reel/DcRwvb-zBoj/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">5</td>
+<td class="dtc">19/08 18:04<span class="wd">Quarta</span></td>
+<td><span class="badge b-carr">Carrossel</span></td>
+<td class="num">33</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">6</td>
+<td class="num">671</td>
+<td class="num st">49</td>
+<td class="num">7,30%</td>
+<td><a href="https://www.instagram.com/p/DcPHJpHHwkh/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">6</td>
+<td class="dtc">19/07 09:37<span class="wd">Domingo</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">34</td>
+<td class="num">5</td>
+<td class="num">3</td>
+<td class="num">11</td>
+<td class="num">1.732</td>
+<td class="num st">54</td>
+<td class="num">3,12%</td>
+<td><a href="https://www.instagram.com/p/Da-YbOTOc8A/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">7</td>
+<td class="dtc">13/08 19:14<span class="wd">Quinta</span></td>
+<td><span class="badge b-carr">Carrossel</span></td>
+<td class="num">45</td>
+<td class="num">10</td>
+<td class="num">2</td>
+<td class="num">2</td>
+<td class="num">2.044</td>
+<td class="num st">61</td>
+<td class="num">2,98%</td>
+<td><a href="https://www.instagram.com/p/Db_yZO1H4SH/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">8</td>
+<td class="dtc">03/07 18:31<span class="wd">Sexta</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">44</td>
+<td class="num">11</td>
+<td class="num">3</td>
+<td class="num">9</td>
+<td class="num">1.964</td>
+<td class="num st">68</td>
+<td class="num">3,46%</td>
+<td><a href="https://www.instagram.com/p/DaWIynVztQj/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">9</td>
+<td class="dtc">05/08 19:29<span class="wd">Quarta</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">55</td>
+<td class="num">5</td>
+<td class="num">0</td>
+<td class="num">12</td>
+<td class="num">1.382</td>
+<td class="num st">75</td>
+<td class="num">5,43%</td>
+<td><a href="https://www.instagram.com/p/DbrNgPfT16r/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr>
+<tr>
+<td class="rk dn">10</td>
+<td class="dtc">18/06 09:17<span class="wd">Quinta</span></td>
+<td><span class="badge b-foto">Foto estática</span></td>
+<td class="num">70</td>
+<td class="num">1</td>
+<td class="num">3</td>
+<td class="num">10</td>
+<td class="num">1.655</td>
+<td class="num st">84</td>
+<td class="num">5,08%</td>
+<td><a href="https://www.instagram.com/p/DZuhfwUux0t/" target="_blank" rel="noopener" class="lk" aria-label="Abrir publicação no Instagram">↗</a></td>
+</tr></tbody>
+  </table>
+ </div>
+</section>
+<!-- ============ Plano de crescimento ============ -->
+<section>
+ <div class="eyebrow">Plano de crescimento</div>
+ <div class="plan">
+
+  <div class="pcard good">
+   <h3 class="pt"><span class="ic g">✓</span>3 pontos fortes</h3>
+   <ol class="plist">
+    <li><span class="pnum">1</span><div>
+     <h4>Alcance muito acima do tamanho da base</h4>
+     <p>Em 30 dias o perfil alcançou <b>191.737</b> contas com apenas 23.900 seguidores —
+      cerca de <b>8× a base</b>. O pico de 11/08 sozinho alcançou 22.344 contas. A distribuição
+      para não-seguidores funciona.</p></div></li>
+    <li><span class="pnum">2</span><div>
+     <h4>Engajamento sobre alcance de 6,06%</h4>
+     <p>Bem acima da faixa usual de 1–3% do setor. O melhor post (16/06, foto) converteu
+      <b>18,3% do alcance em interação</b>. Quem vê, interage — o problema é de distribuição,
+      não de qualidade do conteúdo.</p></div></li>
+    <li><span class="pnum">3</span><div>
+     <h4>Compartilhamento é o motor de crescimento</h4>
+     <p><b>1.102 compartilhamentos</b> em 30 dias. Os três melhores posts têm 197, 438 e 161
+      compartilhamentos. Somado à concentração em Belo Horizonte (10.222 seguidores, 57% dos
+      localizados), isso indica uma audiência local que divulga espontaneamente — o ativo mais
+      valioso para venda de ingresso.</p></div></li>
+   </ol>
+  </div>
+
+  <div class="pcard warnc">
+   <h3 class="pt"><span class="ic w">!</span>3 prioridades de melhoria</h3>
+   <ol class="plist">
+    <li><span class="pnum">1</span><div>
+     <h4>O hiato de publicação derrubou o alcance em 88,9%</h4>
+     <p>Entre 20/08 e 01/09 foram <b>12 dias sem publicar</b>. O alcance caiu de 172.533 para
+      19.204 e os novos seguidores de 452 para 194/quinzena. Nenhum outro fator do
+      período explica uma queda dessa magnitude. <b>É a correção mais urgente.</b></p></div></li>
+    <li><span class="pnum">2</span><div>
+     <h4>Salvamentos quase inexistentes</h4>
+     <p>Apenas <b>263 salvamentos</b> contra 10.568 curtidas — 1 salvamento a cada 40
+      curtidas. O conteúdo gera reação imediata, mas quase nunca "guardar para depois". Esse é um
+      dos sinais que mais pesa na distribuição do algoritmo e o mais fraco do perfil.</p></div></li>
+    <li><span class="pnum">3</span><div>
+     <h4>Carrossel entrega 1/3 do alcance dos demais formatos</h4>
+     <p>Média de <b>1.351 contas</b> por carrossel, contra 4.380 das fotos e
+      3.416 dos Reels — e 117,0 interações por post, 48% abaixo da média
+      geral. Como formato de descoberta, está custando alcance.</p></div></li>
+   </ol>
+  </div>
+
+  <div class="pcard full">
+   <h3 class="pt"><span class="ic b">◷</span>Frequência e horário ideais</h3>
+   <div class="recs">
+    <div class="rec">
+     <div class="rl">Frequência</div>
+     <div class="rv hl">4 a 5 posts / semana</div>
+     <p>Hoje: 2,6/semana. Sem hiatos acima de 48h — foi o intervalo longo que quebrou a
+      distribuição em agosto.</p>
+    </div>
+    <div class="rec">
+     <div class="rl">Janela principal</div>
+     <div class="rv hl">18h – 20h</div>
+     <p>261,9 interações/post em 16 publicações — a maior amostra e a melhor taxa sobre
+      alcance (6,89%). Base confiável.</p>
+    </div>
+    <div class="rec">
+     <div class="rl">Janela de alto teto</div>
+     <div class="rv">15h – 17h</div>
+     <p>422,2 interações/post, o maior valor absoluto, mas em apenas 4 posts. Vale testar
+      1×/semana para confirmar.</p>
+    </div>
+    <div class="rec">
+     <div class="rl">Melhores dias</div>
+     <div class="rv">Terça e segunda</div>
+     <p>Terça: 497,8 interações/post. Segunda: 392,8. Domingo é o pior dia (119,0) —
+      evitar lançamentos.</p>
+    </div>
+   </div>
+  </div>
+
+  <div class="pcard full">
+   <h3 class="pt"><span class="ic b">▲</span>Conteúdo a priorizar nos próximos 30 dias</h3>
+   <p style="margin:0 0 14px;font-size:13px;color:var(--ink-2);line-height:1.65">
+    <b style="color:var(--ink)">Foto estática de anúncio (peça de espetáculo) como formato principal,
+    Reels como formato de sustentação.</b> Contrariando o senso comum, a foto estática é o formato de
+    melhor desempenho neste perfil: <b>280,1 interações e 4.380 de alcance médio</b>,
+    contra 199,5 e 3.416 dos Reels. O motivo aparece nos dados de compartilhamento —
+    58,6 compartilhamentos médios por foto contra 33,2 por Reels: o cartaz do espetáculo
+    é o que o público reenvia para amigos e grupos.
+   </p>
+   <div class="recs">
+    <div class="rec">
+     <div class="rl">Proporção sugerida</div>
+     <div class="rv">3 fotos · 2 Reels</div>
+     <p>Por semana. Carrossel só para conteúdo de profundidade (crítica, bastidor em série),
+      não para anúncio.</p>
+    </div>
+    <div class="rec">
+     <div class="rl">Ajuste obrigatório</div>
+     <div class="rv">Data, hora e local no 1º frame</div>
+     <p>Ataca o ponto fraco dos salvamentos: informação de agenda é o que faz alguém salvar
+      um post de teatro.</p>
+    </div>
+    <div class="rec">
+     <div class="rl">Reels: manter</div>
+     <div class="rv">Trechos de cena com áudio</div>
+     <p>O Reels de 10/08 (997 interações, 12.348 de alcance) é o segundo melhor post do período —
+      o formato funciona quando entrega emoção da cena.</p>
+    </div>
+   </div>
+  </div>
+
+  <div class="pcard full strat">
+   <h3 class="pt"><span class="ic b">★</span>Estratégia de aquisição — nicho: teatro e cultura em Belo Horizonte</h3>
+   <p style="margin:0 0 4px;font-size:13px;color:var(--ink-2);line-height:1.65">
+    Os dados desenham um nicho muito nítido: <b style="color:var(--ink)">público local (Belo Horizonte
+    concentra 10.222 seguidores), 60% feminino, com núcleo entre 35 e 54 anos</b>, que consome
+    teatro e <b style="color:var(--ink)">compartilha</b> mais do que salva. A alavanca certa não é
+    anúncio pago — é <b style="color:var(--ink)">distribuição emprestada</b>.
+   </p>
+   <p style="margin:12px 0 0;font-size:13.5px;font-weight:640">
+    Estratégia: publicação em colaboração (Collab) com o elenco e a companhia de cada espetáculo.
+   </p>
+   <ol class="steps">
+    <li><span>Para <b>todo anúncio de espetáculo</b>, publicar como <b>Collab do Instagram</b> marcando a
+     companhia e 1–2 atores do elenco. O post aparece no feed dos seguidores deles com o mesmo
+     contador de engajamento — é alcance novo e qualificado, a custo zero.</span></li>
+    <li><span>Padronizar como <b>condição de pauta</b> na produção: nenhuma peça entra na grade sem os
+     @ dos artistas confirmados para o Collab. Isso torna a tática sistemática, não pontual.</span></li>
+    <li><span>Publicar na <b>terça, entre 18h e 20h</b> — cruzamento do melhor dia com a janela de maior
+     amostra — e trazer <b>data, hora, local e link</b> já no primeiro frame, para atacar o déficit
+     de salvamentos.</span></li>
+    <li><span>Nas 48h seguintes, <b>repostar nos stories</b> os comentários e compartilhamentos do público.
+     Prova social alimenta o mesmo ciclo de compartilhamento que já é o ponto forte do perfil.</span></li>
+    <li><span><b>Medir por espetáculo</b>, não por post: alcance de não-seguidores e novos seguidores nas
+     72h após cada Collab. Meta realista para 30 dias — voltar ao patamar de <b>450 novos
+     seguidores por quinzena</b>, o nível já atingido na primeira metade de agosto.</span></li>
+   </ol>
+  </div>
+ </div>
+</section>
+
+<!-- ============ Notas ============ -->
+<section>
+ <div class="notes">
+  <h3>Notas metodológicas e métricas indisponíveis</h3>
+  <ul>
+   <li><b>Impressões:</b> descontinuada pela API do Instagram (<code>impressions</code>,
+    <code>media_impressions</code> marcados como <em>deprecated</em> no conector). Foi substituída por
+    <b>visualizações</b> (<code>views</code>), a métrica oficial equivalente.</li>
+   <li><b>Histórico do total de seguidores:</b> a API devolve apenas o total de hoje
+    (23.900). A curva do gráfico foi <b>reconstruída</b> retroagindo os novos seguidores/dia
+    (<code>follower_count_1d</code>), que por sua vez só cobre os últimos 30 dias.</li>
+   <li><b>Seguidores ganhos por publicação:</b> <code>media_follows</code> retorna nulo para Reels
+    (limitação da API) — disponível apenas para publicações de feed, onde os valores foram de 1 a 2
+    por post.</li>
+   <li><b>Cliques em links do perfil:</b> <code>profile_links_taps</code> registrou apenas 4 cliques
+    em 30 dias. Valor baixo demais para análise; provável subregistro do rastreamento do Linktree.</li>
+   <li><b>Stories:</b> a API só expõe stories nas 24h em que estão no ar, portanto não há histórico
+    para o período analisado.</li>
+   <li><b>Janelas:</b> métricas diárias e de conta cobrem <b>10/08 a 08/09</b> (30 dias).
+    A análise por publicação usa <b>90 dias</b> (38 posts) porque os 30 dias contêm apenas
+    11 publicações — amostra insuficiente para um ranking de 10 maiores e 10 menores.</li>
+   <li><b>Alcance de 30 dias</b> é a soma dos alcances diários; como uma mesma conta pode ser
+    alcançada em dias diferentes, o número de pessoas únicas no período é menor.</li>
+   <li>Todos os horários estão em <b>horário de Brasília (UTC−3)</b>, convertidos do UTC devolvido
+    pela API.</li>
+  </ul>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap ft">
+  <div class="bd">Relatório gerado por <span>Encha AI</span></div>
+  <div class="fm">Dados: Windsor.ai · conector Instagram · @teatroemmovimento · gerado em 09/09/2026</div>
+ </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function () {
+  var D = {"labels": ["14/06", "16/06", "18/06", "19/06", "26/06", "28/06", "29/06", "02/07", "02/07", "03/07", "05/07", "06/07", "08/07", "11/07", "13/07", "15/07", "17/07", "17/07", "18/07", "19/07", "22/07", "29/07", "31/07", "04/08", "05/08", "06/08", "07/08", "10/08", "11/08", "13/08", "15/08", "16/08", "18/08", "19/08", "20/08", "01/09", "02/09", "04/09"], "likes": [116, 976, 70, 494, 105, 79, 296, 165, 341, 44, 136, 45, 42, 118, 65, 70, 43, 103, 75, 34, 117, 189, 91, 416, 55, 24, 30, 701, 87, 45, 48, 57, 197, 33, 40, 79, 312, 28], "comments": [19, 75, 1, 42, 12, 7, 24, 27, 53, 11, 18, 0, 9, 32, 5, 0, 4, 4, 11, 5, 12, 13, 15, 17, 5, 6, 4, 41, 9, 10, 3, 5, 2, 8, 0, 10, 39, 4], "types": ["Reels", "Foto estática", "Foto estática", "Foto estática", "Carrossel", "Foto estática", "Foto estática", "Reels", "Foto estática", "Foto estática", "Reels", "Foto estática", "Foto estática", "Reels", "Foto estática", "Reels", "Foto estática", "Reels", "Foto estática", "Foto estática", "Reels", "Reels", "Foto estática", "Foto estática", "Foto estática", "Reels", "Reels", "Reels", "Reels", "Carrossel", "Foto estática", "Reels", "Carrossel", "Carrossel", "Reels", "Reels", "Reels", "Reels"], "urls": ["https://www.instagram.com/reel/DZkcHRsOc26/", "https://www.instagram.com/p/DZqcpWOzRRi/", "https://www.instagram.com/p/DZuhfwUux0t/", "https://www.instagram.com/p/DZxMviDuWrS/", "https://www.instagram.com/p/DaEKfogH2Ru/", "https://www.instagram.com/p/DaIt-38Oyhp/", "https://www.instagram.com/p/DaK6JmUOW7J/", "https://www.instagram.com/reel/DaS3U0YOdOF/", "https://www.instagram.com/p/DaTnPk7TsAk/", "https://www.instagram.com/p/DaWIynVztQj/", "https://www.instagram.com/reel/DaaluY-OWjp/", "https://www.instagram.com/p/Dac7cD5u6ro/", "https://www.instagram.com/p/DajNoLxTPhy/", "https://www.instagram.com/reel/Daqrxv5T1sB/", "https://www.instagram.com/p/DavxlWgzNuy/", "https://www.instagram.com/reel/Da0Wi55uEDA/", "https://www.instagram.com/p/Da5UxcWOpYB/", "https://www.instagram.com/reel/Da6JKdUT2L6/", "https://www.instagram.com/p/Da795ZIOZpr/", "https://www.instagram.com/p/Da-YbOTOc8A/", "https://www.instagram.com/reel/DbG3GdAz8JV/", "https://www.instagram.com/reel/DbY9KEUTXgB/", "https://www.instagram.com/p/DbeRVMWT4jL/", "https://www.instagram.com/p/DboqDzwzPWY/", "https://www.instagram.com/p/DbrNgPfT16r/", "https://www.instagram.com/reel/DbtG5JGuGfg/", "https://www.instagram.com/reel/Dbv4G_1p2ZM/", "https://www.instagram.com/reel/Db33KwETO-J/", "https://www.instagram.com/reel/Db6sU-fhNn8/", "https://www.instagram.com/p/Db_yZO1H4SH/", "https://www.instagram.com/p/DcCU1XhTyiY/", "https://www.instagram.com/reel/DcGhVUPhm1_/", "https://www.instagram.com/p/DcM5mENjlyv/", "https://www.instagram.com/p/DcPHJpHHwkh/", "https://www.instagram.com/reel/DcRwvb-zBoj/", "https://www.instagram.com/reel/Dcw2uRDzvAW/", "https://www.instagram.com/reel/DczUwixTDX_/", "https://www.instagram.com/reel/Dc37piTz3WM/"], "reach": [1870, 8613, 1655, 6894, 1376, 2090, 4505, 4505, 6815, 1964, 4135, 2591, 3795, 1578, 8345, 1951, 5627, 5808, 7460, 1732, 6368, 5311, 2164, 7023, 1382, 781, 1169, 12348, 1890, 2044, 1803, 1497, 1314, 671, 1240, 1474, 5311, 831], "cLab": ["10/08", "11/08", "12/08", "13/08", "14/08", "15/08", "16/08", "17/08", "18/08", "19/08", "20/08", "21/08", "22/08", "23/08", "24/08", "25/08", "26/08", "27/08", "28/08", "29/08", "30/08", "31/08", "01/09", "02/09", "03/09", "04/09", "05/09", "06/09", "07/09", "08/09"], "cVal": [23318, 23395, 23444, 23487, 23509, 23528, 23548, 23566, 23583, 23602, 23617, 23635, 23668, 23689, 23706, 23721, 23729, 23745, 23750, 23757, 23774, 23786, 23801, 23817, 23831, 23845, 23856, 23886, 23900, 23900], "tOrder": ["Foto estática", "Reels", "Carrossel"], "tEng": [280.1, 199.5, 117.0], "tReach": [4380, 3416, 1351], "hLab": ["09h–11h", "12h–14h", "15h–17h", "18h–20h", "21h–23h"], "hEng": [183.0, 100.0, 422.2, 261.9, 211.0], "hN": [10, 7, 4, 16, 1], "dLab": ["10/08", "11/08", "12/08", "13/08", "14/08", "15/08", "16/08", "17/08", "18/08", "19/08", "20/08", "21/08", "22/08", "23/08", "24/08", "25/08", "26/08", "27/08", "28/08", "29/08", "30/08", "31/08", "01/09", "02/09", "03/09", "04/09", "05/09", "06/09", "07/09", "08/09"], "dReach": [18697, 22344, 17235, 15247, 18039, 7897, 13565, 10788, 11296, 10767, 8985, 9085, 5003, 2046, 1539, 1318, 1290, 1234, 1312, 1212, 1193, 1256, 1586, 2780, 2418, 1331, 785, 697, 446, 346]};
+  if (!window.Chart) {
+    document.querySelectorAll('.cbox').forEach(function (box) {
+      box.classList.add('nochart');
+      var n = document.createElement('p');
+      n.className = 'nc';
+      n.innerHTML = '<b>Gráfico indisponível</b>Não foi possível carregar a biblioteca Chart.js pelo CDN. '
+        + 'Verifique a conexão e recarregue — todos os números deste relatório continuam disponíveis '
+        + 'nos cartões e nas tabelas.';
+      box.appendChild(n);
+    });
+    return;
+  }
+
+  var INK = '#f2f4f8', INK2 = '#a8b0c0', INK3 = '#6f7789';
+  var S1 = '#3987e5', S2 = '#d95926', S3 = '#199e70';
+  var GRID = 'rgba(255,255,255,.06)', SURF = '#161a22';
+  var nf = new Intl.NumberFormat('pt-BR');
+  var nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  Chart.defaults.font.family = 'Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif';
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = INK3;
+  Chart.defaults.maintainAspectRatio = false;
+  Chart.defaults.animation.duration = 500;
+
+  var TIP = {
+    backgroundColor: '#0b0d12', borderColor: '#333b4b', borderWidth: 1,
+    titleColor: INK, bodyColor: INK2, padding: 10, cornerRadius: 8,
+    displayColors: true, boxWidth: 8, boxHeight: 8, boxPadding: 4, usePointStyle: true
+  };
+  function axis(opts) {
+    return Object.assign({
+      grid: { color: GRID, drawTicks: false, drawBorder: false },
+      border: { display: false },
+      ticks: { color: INK3, padding: 8 }
+    }, opts || {});
+  }
+  // direct value labels on bars, drawn above each bar end
+  var valueLabels = {
+    id: 'valueLabels',
+    afterDatasetsDraw: function (c, a, o) {
+      var ctx = c.ctx, fmt = (o && o.fmt) || function (v) { return nf.format(v); };
+      ctx.save();
+      ctx.font = '600 11px ' + Chart.defaults.font.family;
+      ctx.fillStyle = INK; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      c.getDatasetMeta(0).data.forEach(function (el, i) {
+        var v = c.data.datasets[0].data[i];
+        if (v == null) return;
+        ctx.fillText(fmt(v), el.x, el.y - 6);
+      });
+      ctx.restore();
+    }
+  };
+
+  /* ---- 1. Evolução de seguidores ---- */
+  new Chart(document.getElementById('cFoll'), {
+    type: 'line',
+    data: { labels: D.cLab, datasets: [{
+      label: 'Seguidores', data: D.cVal,
+      borderColor: S1, borderWidth: 2, tension: .32,
+      pointRadius: 0, pointHoverRadius: 5,
+      pointHoverBackgroundColor: S1, pointHoverBorderColor: SURF, pointHoverBorderWidth: 2,
+      fill: true,
+      backgroundColor: function (c) {
+        var a = c.chart.chartArea; if (!a) return 'transparent';
+        var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
+        g.addColorStop(0, 'rgba(57,135,229,.28)'); g.addColorStop(1, 'rgba(57,135,229,0)');
+        return g;
+      }
+    }] },
+    options: {
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: Object.assign({}, TIP, { callbacks: {
+          label: function (c) { return nf.format(c.parsed.y) + ' seguidores'; } } })
+      },
+      scales: {
+        x: axis({ ticks: { color: INK3, padding: 8, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+                  grid: { display: false } }),
+        y: axis({ ticks: { color: INK3, padding: 8, callback: function (v) { return nf.format(v); } } })
+      }
+    }
+  });
+
+  /* ---- 2. Alcance diário ---- */
+  new Chart(document.getElementById('cReach'), {
+    type: 'line',
+    data: { labels: D.dLab, datasets: [{
+      label: 'Alcance', data: D.dReach,
+      borderColor: S2, borderWidth: 2, tension: .3,
+      pointRadius: 0, pointHoverRadius: 5,
+      pointHoverBackgroundColor: S2, pointHoverBorderColor: SURF, pointHoverBorderWidth: 2,
+      fill: true,
+      backgroundColor: function (c) {
+        var a = c.chart.chartArea; if (!a) return 'transparent';
+        var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
+        g.addColorStop(0, 'rgba(217,89,38,.26)'); g.addColorStop(1, 'rgba(217,89,38,0)');
+        return g;
+      }
+    }] },
+    options: {
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: Object.assign({}, TIP, { callbacks: {
+          label: function (c) { return nf.format(c.parsed.y) + ' contas alcançadas'; } } })
+      },
+      scales: {
+        x: axis({ ticks: { color: INK3, padding: 8, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+                  grid: { display: false } }),
+        y: axis({ ticks: { color: INK3, padding: 8, callback: function (v) { return nf.format(v); } } })
+      }
+    }
+  });
+
+  /* ---- 3. Curtidas + comentários por post (empilhado) ---- */
+  new Chart(document.getElementById('cPosts'), {
+    type: 'bar',
+    data: { labels: D.labels, datasets: [
+      { label: 'Curtidas', data: D.likes, backgroundColor: S1,
+        borderColor: SURF, borderWidth: { top: 2, right: 0, bottom: 0, left: 0 },
+        borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: false, maxBarThickness: 26 },
+      { label: 'Comentários', data: D.comments, backgroundColor: S2,
+        borderColor: SURF, borderWidth: { top: 2, right: 0, bottom: 0, left: 0 },
+        borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: false, maxBarThickness: 26 }
+    ] },
+    options: {
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: Object.assign({}, TIP, { callbacks: {
+          title: function (it) { return D.labels[it[0].dataIndex] + ' · ' + D.types[it[0].dataIndex]; },
+          label: function (c) { return c.dataset.label + ': ' + nf.format(c.parsed.y); },
+          footer: function (it) {
+            var i = it[0].dataIndex;
+            return 'Alcance: ' + nf.format(D.reach[i]);
+          } } })
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, border: { display: false },
+             ticks: { color: INK3, padding: 6, maxRotation: 90, minRotation: 90, autoSkip: false, font: { size: 9.5 } } },
+        y: Object.assign({ stacked: true }, axis({
+             ticks: { color: INK3, padding: 8, callback: function (v) { return nf.format(v); } } }))
+      }
+    }
+  });
+
+  /* ---- 4. Engajamento médio por formato ---- */
+  new Chart(document.getElementById('cType'), {
+    type: 'bar',
+    data: { labels: D.tOrder, datasets: [{
+      label: 'Engajamento médio', data: D.tEng,
+      backgroundColor: [S1, S2, S3],
+      borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: false, maxBarThickness: 74 }] },
+    options: {
+      layout: { padding: { top: 22 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: Object.assign({}, TIP, { callbacks: {
+          label: function (c) { return nf.format(c.parsed.y) + ' interações/post'; } } })
+      },
+      scales: {
+        x: axis({ grid: { display: false }, ticks: { color: INK2, padding: 8, font: { size: 12 } } }),
+        y: axis({ ticks: { color: INK3, padding: 8, callback: function (v) { return nf.format(v); } } })
+      },
+      valueLabels: { fmt: function (v) { return nf1.format(v); } }
+    },
+    plugins: [valueLabels]
+  });
+
+  /* ---- 5. Alcance médio por formato ---- */
+  new Chart(document.getElementById('cTypeReach'), {
+    type: 'bar',
+    data: { labels: D.tOrder, datasets: [{
+      label: 'Alcance médio', data: D.tReach,
+      backgroundColor: [S1, S2, S3],
+      borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: false, maxBarThickness: 74 }] },
+    options: {
+      layout: { padding: { top: 22 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: Object.assign({}, TIP, { callbacks: {
+          label: function (c) { return nf.format(c.parsed.y) + ' contas/post'; } } })
+      },
+      scales: {
+        x: axis({ grid: { display: false }, ticks: { color: INK2, padding: 8, font: { size: 12 } } }),
+        y: axis({ ticks: { color: INK3, padding: 8, callback: function (v) { return nf.format(v); } } })
+      }
+    },
+    plugins: [valueLabels]
+  });
+
+  /* ---- tabs ---- */
+  var tabs = document.querySelectorAll('.tab');
+  var tables = { top: document.getElementById('tTop'), bot: document.getElementById('tBot') };
+  tabs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      tabs.forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); });
+      Object.keys(tables).forEach(function (kk) { tables[kk].hidden = (kk !== b.dataset.t); });
+    });
+  });
+})();
+</script>
+</body>
+</html>
